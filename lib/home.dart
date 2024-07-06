@@ -14,11 +14,12 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<RecipeModel> recipeList = <RecipeModel>[];
   TextEditingController searchController = new TextEditingController();
-  String url = "https://api.edamam.com/search?q=chicken&app_id=58567d9e&app_key=2b4b0911f9e74cf2e9e25bb258898f64";
+  String url =
+      "https://api.edamam.com/search?q=chicken&app_id=58567d9e&app_key=2b4b0911f9e74cf2e9e25bb258898f64";
 
-  void getRecipe(String query) async
-  {
-    String url = "https://api.edamam.com/search?q=$query&app_id=58567d9e&app_key=2b4b0911f9e74cf2e9e25bb258898f64";
+  void getRecipe(String query) async {
+    String url =
+        "https://api.edamam.com/search?q=$query&app_id=58567d9e&app_key=2b4b0911f9e74cf2e9e25bb258898f64";
     Response response = await get(Uri.parse(url));
     Map data = jsonDecode(response.body);
     //log(data.toString());
@@ -27,12 +28,11 @@ class _HomeState extends State<Home> {
       return RecipeModel.fromMap(element["recipe"]);
     }).toList();
     log(recipeList.toString());
-    recipeList.forEach((Recipe){
+    recipeList.forEach((Recipe) {
       print(Recipe.appLabel);
       print(Recipe.appCalories);
       print(Recipe.appUrl);
     });
-
   }
 
   @override
@@ -41,7 +41,6 @@ class _HomeState extends State<Home> {
     super.initState();
     getRecipe("Ladoo");
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -60,69 +59,173 @@ class _HomeState extends State<Home> {
               ),
             ),
           ),
-          Column(
-            children: [
-              //Start Search Bar
-              SafeArea(
-                child: Container(
-                // Search Container
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  margin: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(24)),
-                  child: Row(
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          if ((searchController.text).replaceAll(" ", "") == "") {
-                            print("Blank Search");
-                          } else {
-                            getRecipe(searchController.text);
-                          }
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                //Start Search Bar
+                SafeArea(
+                  child: Container(
+                    // Search Container
+                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    margin: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(24)),
+                    child: Row(
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: () {
+                            if ((searchController.text).replaceAll(" ", "") ==
+                                "") {
+                              print("Blank Search");
+                            } else {
+                              getRecipe(searchController.text);
+                            }
 
-                  // Define your onTap action here
-                        },
-                        child: Container(
-                          child: Icon(
-                            Icons.search,
-                            color: Colors.blueAccent,
-                          ),
-                          margin: EdgeInsets.fromLTRB(3, 0, 7, 0),
-                        ), // Use Icon widget here
-                      ),
-                      Expanded(
-                        child: TextField(
-                          controller: searchController,
-                          decoration: InputDecoration(
-                            hintText: "Let's Cook Something",
-                            border: InputBorder.none,
+                            // Define your onTap action here
+                          },
+                          child: Container(
+                            child: Icon(
+                              Icons.search,
+                              color: Colors.blueAccent,
+                            ),
+                            margin: EdgeInsets.fromLTRB(3, 0, 7, 0),
+                          ), // Use Icon widget here
+                        ),
+                        Expanded(
+                          child: TextField(
+                            controller: searchController,
+                            decoration: InputDecoration(
+                              hintText: "Let's Cook Something",
+                              border: InputBorder.none,
+                            ),
                           ),
                         ),
+                      ],
+                    ),
+                  ),
+                ),
+                // Search Bar End end
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "WHAT DO YOU WANT TO COOK TODAY ?",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Let's Cook Something New",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
                 ),
-              ),
-              // Search Bar End end
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                //Lets something cook end here
 
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("WHAT DO YOU WANT TO COOK TODAY ?", style: TextStyle(color: Colors.white, fontSize: 32,fontWeight: FontWeight.bold),),
-                    SizedBox(height: 10,),
-                    Text("Let's Cook Something New", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),),
-                  ],
+                //ListviewBuilder Start here
+                Container(
+                  child: ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: recipeList.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {},
+                          child: Card(
+                            margin: EdgeInsets.all(20),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            elevation: 0.0,
+                            child: Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(
+                                    recipeList[index].appImageUrl,
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                    // height: 300,
+                                  ),
+                                ),
+                                Positioned(
+                                  left: 0,
+                                  bottom: 0,
+                                  right: 0,
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.black.withOpacity(0.8),
+                                      ),
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 10, horizontal: 10),
+                                      child: Text(
+                                        recipeList[index].appLabel,
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 18),
+                                      )),
+                                ),
+                                Positioned(
+                                  right: 0,
+                                  child: Container(
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(10),
+                                        bottomLeft: Radius.circular(10),
+                                      ),
+                                      
+                                    ),
+
+                                      child: Center(
+                                        child: Row(
+                                          
+                                          children: [
+                                            Icon(Icons.local_fire_department, size: 30,),
+                                            Text(recipeList[index]
+                                                .appCalories
+                                                .toString()
+                                                .substring(0, 6),
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }),
                 ),
-              ),
-
-            ],
+              ],
+            ),
           ),
           // Search Bar Col end
         ],
       ),
     );
   }
+}
+
+//Create Custom Widget
+
+Widget myText() {
+  return Text("This is a Custom Widget");
 }
