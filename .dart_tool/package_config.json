@@ -122,6 +122,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "plugin_platform_interface",
+      "rootUri": "file:///Users/daymon/.pub-cache/hosted/pub.dev/plugin_platform_interface-2.1.8",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "sky_engine",
       "rootUri": "file:///Users/daymon/development/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
@@ -188,13 +194,37 @@
       "languageVersion": "3.3"
     },
     {
+      "name": "webview_flutter",
+      "rootUri": "file:///Users/daymon/.pub-cache/hosted/pub.dev/webview_flutter-3.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "webview_flutter_android",
+      "rootUri": "file:///Users/daymon/.pub-cache/hosted/pub.dev/webview_flutter_android-2.10.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "webview_flutter_platform_interface",
+      "rootUri": "file:///Users/daymon/.pub-cache/hosted/pub.dev/webview_flutter_platform_interface-1.9.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "webview_flutter_wkwebview",
+      "rootUri": "file:///Users/daymon/.pub-cache/hosted/pub.dev/webview_flutter_wkwebview-2.9.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "food_app",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     }
   ],
-  "generated": "2024-07-06T07:57:56.484811Z",
+  "generated": "2024-07-06T18:18:08.811159Z",
   "generator": "pub",
   "generatorVersion": "3.4.3",
   "flutterRoot": "file:///Users/daymon/development/flutter",

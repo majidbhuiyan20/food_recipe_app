@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:food_app/model.dart';
 import 'package:http/http.dart';
+import 'package:food_app/recipeView.dart';
 
 class Search extends StatefulWidget {
  String query;
@@ -126,7 +127,13 @@ class _SearchState extends State<Search> {
                       itemCount: recipeList.length,
                       itemBuilder: (context, index) {
                         return InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Recipeview(
+                                        recipeList[index].appUrl)));
+                          },
                           child: Card(
                             margin: EdgeInsets.all(20),
                             shape: RoundedRectangleBorder(

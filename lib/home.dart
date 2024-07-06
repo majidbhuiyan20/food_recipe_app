@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:food_app/model.dart';
+import 'package:food_app/recipeView.dart';
 import 'package:food_app/search.dart';
 import 'package:http/http.dart';
-
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -86,7 +86,11 @@ class _HomeState extends State<Home> {
                                 "") {
                               print("Blank Search");
                             } else {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => Search(searchController.text)));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          Search(searchController.text)));
                             }
 
                             // Define your onTap action here
@@ -150,7 +154,13 @@ class _HomeState extends State<Home> {
                           itemCount: recipeList.length,
                           itemBuilder: (context, index) {
                             return InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Recipeview(
+                                            recipeList[index].appUrl)));
+                              },
                               child: Card(
                                 margin: EdgeInsets.all(20),
                                 shape: RoundedRectangleBorder(
@@ -165,7 +175,7 @@ class _HomeState extends State<Home> {
                                         recipeList[index].appImageUrl,
                                         fit: BoxFit.cover,
                                         width: double.infinity,
-                                        // height: 300,
+                                        //height: 200,
                                       ),
                                     ),
                                     Positioned(
@@ -236,7 +246,3 @@ class _HomeState extends State<Home> {
 }
 
 //Create Custom Widget
-
-Widget myText() {
-  return Text("This is a Custom Widget");
-}
