@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:food_app/model.dart';
+import 'package:food_app/search.dart';
 import 'package:http/http.dart';
+
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -12,6 +14,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  bool isLoading = true;
   List<RecipeModel> recipeList = <RecipeModel>[];
   TextEditingController searchController = new TextEditingController();
   String url =
@@ -32,6 +35,10 @@ class _HomeState extends State<Home> {
       print(Recipe.appLabel);
       print(Recipe.appCalories);
       print(Recipe.appUrl);
+    });
+
+    setState(() {
+      isLoading = false;
     });
   }
 
@@ -79,7 +86,7 @@ class _HomeState extends State<Home> {
                                 "") {
                               print("Blank Search");
                             } else {
-                              getRecipe(searchController.text);
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => Search(searchController.text)));
                             }
 
                             // Define your onTap action here
@@ -135,84 +142,88 @@ class _HomeState extends State<Home> {
 
                 //ListviewBuilder Start here
                 Container(
-                  child: ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: recipeList.length,
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {},
-                          child: Card(
-                            margin: EdgeInsets.all(20),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            elevation: 0.0,
-                            child: Stack(
-                              children: [
-                                ClipRRect(
+                  child: isLoading
+                      ? CircularProgressIndicator()
+                      : ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: recipeList.length,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {},
+                              child: Card(
+                                margin: EdgeInsets.all(20),
+                                shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  child: Image.network(
-                                    recipeList[index].appImageUrl,
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    // height: 300,
-                                  ),
                                 ),
-                                Positioned(
-                                  left: 0,
-                                  bottom: 0,
-                                  right: 0,
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.black.withOpacity(0.8),
+                                elevation: 0.0,
+                                child: Stack(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.network(
+                                        recipeList[index].appImageUrl,
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                        // height: 300,
                                       ),
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 10, horizontal: 10),
-                                      child: Text(
-                                        recipeList[index].appLabel,
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 18),
-                                      )),
-                                ),
-                                Positioned(
-                                  right: 0,
-                                  child: Container(
-                                    padding: EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(10),
-                                        bottomLeft: Radius.circular(10),
-                                      ),
-                                      
                                     ),
-
-                                      child: Center(
-                                        child: Row(
-                                          
-                                          children: [
-                                            Icon(Icons.local_fire_department, size: 30,),
-                                            Text(recipeList[index]
-                                                .appCalories
-                                                .toString()
-                                                .substring(0, 6),
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
+                                    Positioned(
+                                      left: 0,
+                                      bottom: 0,
+                                      right: 0,
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                            color:
+                                                Colors.black.withOpacity(0.8),
+                                          ),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 10),
+                                          child: Text(
+                                            recipeList[index].appLabel,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18),
+                                          )),
+                                    ),
+                                    Positioned(
+                                      right: 0,
+                                      child: Container(
+                                        padding: EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(10),
+                                            bottomLeft: Radius.circular(10),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                Icons.local_fire_department,
+                                                size: 30,
                                               ),
-                                            ),
-                                          ],
+                                              Text(
+                                                recipeList[index]
+                                                    .appCalories
+                                                    .toString()
+                                                    .substring(0, 6),
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                        );
-                      }),
+                              ),
+                            );
+                          }),
                 ),
               ],
             ),
