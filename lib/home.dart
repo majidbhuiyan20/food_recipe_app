@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:food_app/model.dart';
 import 'package:http/http.dart';
 
 class Home extends StatefulWidget {
@@ -11,6 +12,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  List<RecipeModel> recipeList = <RecipeModel>[];
   TextEditingController searchController = new TextEditingController();
   String url = "https://api.edamam.com/search?q=chicken&app_id=58567d9e&app_key=2b4b0911f9e74cf2e9e25bb258898f64";
 
@@ -19,7 +21,18 @@ class _HomeState extends State<Home> {
     String url = "https://api.edamam.com/search?q=$query&app_id=58567d9e&app_key=2b4b0911f9e74cf2e9e25bb258898f64";
     Response response = await get(Uri.parse(url));
     Map data = jsonDecode(response.body);
-    log(data.toString());
+    //log(data.toString());
+
+    recipeList = (data["hits"] as List).map((element) {
+      return RecipeModel.fromMap(element["recipe"]);
+    }).toList();
+    log(recipeList.toString());
+    recipeList.forEach((Recipe){
+      print(Recipe.appLabel);
+      print(Recipe.appCalories);
+      print(Recipe.appUrl);
+    });
+
   }
 
   @override
