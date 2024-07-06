@@ -26,9 +26,9 @@ class _HomeState extends State<Home> {
               ),
             ),
           ),
-          Column(//search bar col
+          Column(
             children: [
-              //Search Bar
+              //Start Search Bar
               SafeArea(
                 child: Container(
                 // Search Container
@@ -73,6 +73,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
+              // Search Bar End end
             ],
           ),
           // Search Bar Col end
